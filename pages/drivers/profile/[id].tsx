@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
 
 import DriversAPI from "src/services/drivers";
@@ -28,4 +28,26 @@ export default function Driver() {
             </div>
         </>
     );
+}
+
+export async function getServerSideProps(ctx: { query: { id: "string" } }) {
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery<IData>(["driver", ctx.query.id], () =>
+        DriversAPI.getSingleDriver({ driverId: ctx.query.id })
+    );
+
+    await queryClient.prefetchQuery<IData>(
+        ["driver-constructors", ctx.query.id],
+        () =>
+            ConstructorsAPI.getConstructorsByDriver({
+                driverId: ctx.query.id,
+            })
+    );
+
+    return {
+        props: {
+            dehydratedState: dehydrate(queryClient),
+        },
+    };
 }
