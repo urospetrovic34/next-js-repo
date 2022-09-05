@@ -25,7 +25,7 @@ export default function Header() {
                         {list.map((val, id) => (
                             <Link
                                 href={
-                                    val === "Seasons"
+                                    val === "Seasons" || val === "Drivers"
                                         ? `/${val.toLowerCase()}/1`
                                         : `/${val.toLowerCase()}`
                                 }

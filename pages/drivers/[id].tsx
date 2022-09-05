@@ -9,26 +9,10 @@ import DriverCard from "src/components/Card/DriverCard";
 import Pagination from "src/components/Pagination";
 
 export default function Drivers() {
-    const { query, push } = useRouter();
-    const { data } = useQuery<IData>("drivers", () =>
-        DriversAPI.getDrivers({ offset: query.offset ?? "" })
+    const { query } = useRouter();
+    const { data } = useQuery<IData>(["drivers", query.id], () =>
+        DriversAPI.getDrivers({ offset: query.id })
     );
-
-    const increaseOffset = () => {
-        if (!query.offset) {
-            query.offset = String(36);
-        } else {
-            query.offset = String(Number(query.offset) + 36);
-        }
-        push(`/drivers?offset=${query.offset}`);
-    };
-
-    const decreaseOffset = () => {
-        if (query.offset) {
-            query.offset = String(Number(query.offset) - 36);
-        }
-        push(`/drivers?offset=${query.offset}`);
-    };
 
     return (
         <>
@@ -58,19 +42,51 @@ export default function Drivers() {
                     total={Number(data?.MRData.total)}
                     offset={Number(data?.MRData.offset)}
                     limit={Number(data?.MRData.limit)}
-                    rightClick={increaseOffset}
-                    leftClick={decreaseOffset}
+                    previousPage={`/drivers/${Number(query.id) - 1}`}
+                    nextPage={`/drivers/${Number(query.id) + 1}`}
                 />
             </div>
         </>
     );
 }
 
-export async function getServerSideProps(ctx: { query: { offset: "string" } }) {
+export async function getStaticPaths() {
+    return {
+        paths: [
+            { params: { id: "1" } },
+            { params: { id: "2" } },
+            { params: { id: "3" } },
+            { params: { id: "4" } },
+            { params: { id: "5" } },
+            { params: { id: "6" } },
+            { params: { id: "7" } },
+            { params: { id: "8" } },
+            { params: { id: "9" } },
+            { params: { id: "10" } },
+            { params: { id: "11" } },
+            { params: { id: "12" } },
+            { params: { id: "13" } },
+            { params: { id: "14" } },
+            { params: { id: "15" } },
+            { params: { id: "16" } },
+            { params: { id: "17" } },
+            { params: { id: "18" } },
+            { params: { id: "19" } },
+            { params: { id: "20" } },
+            { params: { id: "21" } },
+            { params: { id: "22" } },
+            { params: { id: "23" } },
+            { params: { id: "24" } },
+        ],
+        fallback: false,
+    };
+}
+
+export async function getStaticProps(ctx: { params: { id: "string" } }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IData>("drivers", () =>
-        DriversAPI.getDrivers({ offset: ctx.query.offset ?? "" })
+    await queryClient.prefetchQuery<IData>(["drivers", ctx.params.id], () =>
+        DriversAPI.getDrivers({ offset: ctx.params.id })
     );
 
     return {

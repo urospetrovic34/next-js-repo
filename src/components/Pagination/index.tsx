@@ -1,15 +1,17 @@
+import Link from "next/link";
+
 export default function Pagination({
     total,
     offset,
     limit,
-    rightClick,
-    leftClick,
+    previousPage,
+    nextPage,
 }: {
     total: number;
     offset: number;
     limit: number;
-    rightClick: () => void;
-    leftClick: () => void;
+    previousPage: string;
+    nextPage: string;
 }) {
     return (
         <div className="flex flex-col items-center">
@@ -19,20 +21,26 @@ export default function Pagination({
                 <span className="font-semibold">{total}</span> Entries
             </span>
             <div className="xs:mt-0 mt-2 inline-flex">
-                <button
-                    disabled={offset === 0}
-                    className="pagination-btn rounded-l border-r"
-                    onClick={leftClick}
-                >
-                    {offset === 0 ? "🛇" : "Prev"}
-                </button>
-                <button
-                    disabled={offset >= total - limit}
-                    className="pagination-btn rounded-r border-l"
-                    onClick={rightClick}
-                >
-                    {offset >= total - limit ? "🛇" : "Next"}
-                </button>
+                <Link href={previousPage} passHref>
+                    <a>
+                        <button
+                            disabled={offset === 0}
+                            className="pagination-btn rounded-l border-r"
+                        >
+                            {offset === 0 ? "🛇" : "Prev"}
+                        </button>
+                    </a>
+                </Link>
+                <Link href={nextPage} passHref>
+                    <a>
+                        <button
+                            disabled={offset >= total - limit}
+                            className="pagination-btn rounded-r border-l"
+                        >
+                            {offset >= total - limit ? "🛇" : "Next"}
+                        </button>
+                    </a>
+                </Link>
             </div>
         </div>
     );
