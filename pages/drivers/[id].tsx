@@ -11,7 +11,7 @@ import Pagination from "src/components/Pagination";
 export default function Drivers() {
     const { query } = useRouter();
     const { data } = useQuery<IData>(["drivers", query.id], () =>
-        DriversAPI.getDrivers({ offset: query.id })
+        DriversAPI.getDrivers({ offset: query.id, limit: "36" })
     );
 
     return (
@@ -86,7 +86,7 @@ export async function getStaticProps(ctx: { params: { id: "string" } }) {
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery<IData>(["drivers", ctx.params.id], () =>
-        DriversAPI.getDrivers({ offset: ctx.params.id })
+        DriversAPI.getDrivers({ offset: ctx.params.id, limit: "0" })
     );
 
     return {

@@ -2,6 +2,7 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
 
 import DriversAPI from "src/services/drivers";
+import { IDrivers } from "src/types/API/driverInterface";
 import ConstructorsAPI from "src/services/constructors";
 import { IData } from "src/types/API/mrDataInterface";
 
@@ -30,18 +31,35 @@ export default function Driver() {
     );
 }
 
-export async function getServerSideProps(ctx: { query: { id: "string" } }) {
+export async function getStaticPaths() {
+    const data = await DriversAPI.getAllDrivers();
+
+    const paths = data.MRData.DriverTable.Drivers.map((val: IDrivers) => {
+        return {
+            params: {
+                id: `${val.driverId}`,
+            },
+        };
+    });
+
+    return {
+        paths,
+        fallback: false,
+    };
+}
+
+export async function getStaticProps(ctx: { params: { id: "string" } }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IData>(["driver", ctx.query.id], () =>
-        DriversAPI.getSingleDriver({ driverId: ctx.query.id })
+    await queryClient.prefetchQuery<IData>(["driver", ctx.params.id], () =>
+        DriversAPI.getSingleDriver({ driverId: ctx.params.id })
     );
 
     await queryClient.prefetchQuery<IData>(
-        ["driver-constructors", ctx.query.id],
+        ["driver-constructors", ctx.params.id],
         () =>
             ConstructorsAPI.getConstructorsByDriver({
-                driverId: ctx.query.id,
+                driverId: ctx.params.id,
             })
     );
 
