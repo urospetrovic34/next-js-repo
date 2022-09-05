@@ -20,16 +20,9 @@ async function getDrivers({
     return data;
 }
 
-async function getAllDrivers() {
-    const url = `/drivers.json?limit=1000`;
-    const { data } = await axios.get(url);
-    return data;
-}
-
 const drivers = {
     getSingleDriver,
     getDrivers,
-    getAllDrivers,
 };
 
 export default drivers;
