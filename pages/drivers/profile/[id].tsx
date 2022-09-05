@@ -7,14 +7,14 @@ import { IData } from "src/types/API/mrDataInterface";
 
 export default function Driver() {
     const { query } = useRouter();
-    const { data: driver } = useQuery<IData>(["driver", query.driverId], () =>
-        DriversAPI.getSingleDriver({ driverId: query.driverId })
+    const { data: driver } = useQuery<IData>(["driver", query.id], () =>
+        DriversAPI.getSingleDriver({ driverId: query.id })
     );
     const { data: constructor } = useQuery<IData>(
-        ["driver-constructors", query.driverId],
+        ["driver-constructors", query.id],
         () =>
             ConstructorsAPI.getConstructorsByDriver({
-                driverId: query.driverId,
+                driverId: query.id,
             }),
         { enabled: !!driver }
     );
@@ -30,20 +30,18 @@ export default function Driver() {
     );
 }
 
-export async function getServerSideProps(ctx: {
-    query: { driverId: "string" };
-}) {
+export async function getServerSideProps(ctx: { query: { id: "string" } }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IData>(["driver", ctx.query.driverId], () =>
-        DriversAPI.getSingleDriver({ driverId: ctx.query.driverId })
+    await queryClient.prefetchQuery<IData>(["driver", ctx.query.id], () =>
+        DriversAPI.getSingleDriver({ driverId: ctx.query.id })
     );
 
     await queryClient.prefetchQuery<IData>(
-        ["driver-constructors", ctx.query.driverId],
+        ["driver-constructors", ctx.query.id],
         () =>
             ConstructorsAPI.getConstructorsByDriver({
-                driverId: ctx.query.driverId,
+                driverId: ctx.query.id,
             })
     );
 

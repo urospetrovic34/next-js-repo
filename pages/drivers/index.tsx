@@ -36,7 +36,7 @@ export default function Drivers() {
                 {data?.MRData.DriverTable?.Drivers.map(
                     (val: IDrivers, id: number) => (
                         <Link
-                            href={`/drivers/${val.driverId}`}
+                            href={`/drivers/profile/${val.driverId}`}
                             key={id}
                             passHref
                         >
