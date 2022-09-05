@@ -7,11 +7,11 @@ import { IData } from "src/types/API/mrDataInterface";
 
 export default function Driver() {
     const { query } = useRouter();
-    const { data: driver } = useQuery<IData>("driver", () =>
+    const { data: driver } = useQuery<IData>(["driver", query.driverId], () =>
         DriversAPI.getSingleDriver({ driverId: query.driverId })
     );
     const { data: constructor } = useQuery<IData>(
-        "driver-constructors",
+        ["driver-constructors", query.driverId],
         () =>
             ConstructorsAPI.getConstructorsByDriver({
                 driverId: query.driverId,
@@ -35,14 +35,16 @@ export async function getServerSideProps(ctx: {
 }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IData>("driver", () =>
+    await queryClient.prefetchQuery<IData>(["driver", ctx.query.driverId], () =>
         DriversAPI.getSingleDriver({ driverId: ctx.query.driverId })
     );
 
-    await queryClient.prefetchQuery<IData>("driver-constructors", () =>
-        ConstructorsAPI.getConstructorsByDriver({
-            driverId: ctx.query.driverId,
-        })
+    await queryClient.prefetchQuery<IData>(
+        ["driver-constructors", ctx.query.driverId],
+        () =>
+            ConstructorsAPI.getConstructorsByDriver({
+                driverId: ctx.query.driverId,
+            })
     );
 
     return {
