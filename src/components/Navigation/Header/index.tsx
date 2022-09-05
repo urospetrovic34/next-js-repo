@@ -6,7 +6,7 @@ export default function Header() {
     const showSidebar = () => setDropbar((dropbar) => !dropbar);
 
     return (
-        <nav className="px-4">
+        <nav className="bg-black px-1 text-white">
             <div className="container mx-auto flex flex-wrap items-center justify-between py-3 md:py-5">
                 <a href="#" className="cursor-pointer text-3xl">
                     Placeholder
