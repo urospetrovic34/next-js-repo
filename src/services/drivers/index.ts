@@ -6,16 +6,8 @@ async function getSingleDriver({ driverId }: { driverId?: string | string[] }) {
     return data;
 }
 
-async function getDrivers({
-    offset = "0",
-    limit = "0",
-}: {
-    offset?: string | string[];
-    limit?: string;
-}) {
-    const url = `/drivers.json?offset=${
-        (Number(offset) - 1) * 36
-    }&limit=${limit}`;
+async function getDrivers({ offset }: { offset?: string | string[] }) {
+    const url = `/drivers.json?offset=${(Number(offset) - 1) * 36}&limit=36`;
     const { data } = await axios.get(url);
     return data;
 }
