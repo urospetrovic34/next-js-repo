@@ -1,14 +1,16 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import DriversAPI from "src/services/drivers";
-import IDriverData, { IDrivers } from "src/types/API/driverInterface";
+import { IDrivers } from "src/types/API/driverInterface";
+import { IData } from "src/types/API/mrDataInterface";
 import DriverCard from "src/components/Card/DriverCard";
 import Pagination from "src/components/Pagination";
 
 export default function Drivers() {
     const { query, push } = useRouter();
-    const { data } = useQuery<IDriverData>("drivers", () =>
+    const { data } = useQuery<IData>("drivers", () =>
         DriversAPI.getDrivers({ offset: query.offset ?? "" })
     );
 
@@ -31,20 +33,27 @@ export default function Drivers() {
     return (
         <>
             <div className="grid grid-rows-6 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                {data?.MRData.DriverTable.Drivers.map(
+                {data?.MRData.DriverTable?.Drivers.map(
                     (val: IDrivers, id: number) => (
-                        <DriverCard
+                        <Link
+                            href={`/drivers/${val.driverId}`}
                             key={id}
-                            name={val.givenName}
-                            surname={val.familyName}
-                            date={val.dateOfBirth}
-                            nation={val.nationality}
-                            number={val.permanentNumber}
-                        />
+                            passHref
+                        >
+                            <a>
+                                <DriverCard
+                                    name={val.givenName}
+                                    surname={val.familyName}
+                                    date={val.dateOfBirth}
+                                    nation={val.nationality}
+                                    number={val.permanentNumber}
+                                />
+                            </a>
+                        </Link>
                     )
                 )}
             </div>
-            <div className="mt-4">
+            <div className="mt-8">
                 <Pagination
                     total={Number(data?.MRData.total)}
                     offset={Number(data?.MRData.offset)}
@@ -60,7 +69,7 @@ export default function Drivers() {
 export async function getServerSideProps(ctx: { query: { offset: "string" } }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IDriverData>("drivers", () =>
+    await queryClient.prefetchQuery<IData>("drivers", () =>
         DriversAPI.getDrivers({ offset: ctx.query.offset ?? "" })
     );
 

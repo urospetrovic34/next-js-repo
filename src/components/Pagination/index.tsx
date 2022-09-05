@@ -31,7 +31,7 @@ export default function Pagination({
                     className="pagination-btn rounded-r border-l"
                     onClick={rightClick}
                 >
-                    {offset >= total - limit ? "🛇" : "Prev"}
+                    {offset >= total - limit ? "🛇" : "Next"}
                 </button>
             </div>
         </div>
