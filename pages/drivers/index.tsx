@@ -1,4 +1,5 @@
 import { dehydrate, QueryClient, useQuery } from "react-query";
+import { useRouter } from "next/router";
 
 import DriversAPI from "src/services/drivers";
 import IDriverData, { IDrivers } from "src/types/API/driverInterface";
@@ -6,7 +7,26 @@ import DriverCard from "src/components/Card/DriverCard";
 import Pagination from "src/components/Pagination";
 
 export default function Drivers() {
-    const { data } = useQuery<IDriverData>("drivers", DriversAPI.getDrivers);
+    const { query, push } = useRouter();
+    const { data } = useQuery<IDriverData>("drivers", () =>
+        DriversAPI.getDrivers({ offset: query.offset ?? "" })
+    );
+
+    const increaseOffset = () => {
+        if (!query.offset) {
+            query.offset = String(36);
+        } else {
+            query.offset = String(Number(query.offset) + 36);
+        }
+        push(`/drivers?offset=${query.offset}`);
+    };
+
+    const decreaseOffset = () => {
+        if (query.offset) {
+            query.offset = String(Number(query.offset) - 36);
+        }
+        push(`/drivers?offset=${query.offset}`);
+    };
 
     return (
         <>
@@ -26,21 +46,22 @@ export default function Drivers() {
             </div>
             <div className="mt-4">
                 <Pagination
-                    total={data?.MRData.total || "0"}
-                    offset={data?.MRData.offset || "0"}
-                    limit={data?.MRData.limit || "0"}
+                    total={Number(data?.MRData.total)}
+                    offset={Number(data?.MRData.offset)}
+                    limit={Number(data?.MRData.limit)}
+                    rightClick={increaseOffset}
+                    leftClick={decreaseOffset}
                 />
             </div>
         </>
     );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps(ctx: { query: { offset: "string" } }) {
     const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery<IDriverData>(
-        "drivers",
-        DriversAPI.getDrivers
+    await queryClient.prefetchQuery<IDriverData>("drivers", () =>
+        DriversAPI.getDrivers({ offset: ctx.query.offset ?? "" })
     );
 
     return {

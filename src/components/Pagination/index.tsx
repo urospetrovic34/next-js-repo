@@ -2,35 +2,36 @@ export default function Pagination({
     total,
     offset,
     limit,
+    rightClick,
+    leftClick,
 }: {
-    total: string;
-    offset: string;
-    limit: string;
+    total: number;
+    offset: number;
+    limit: number;
+    rightClick: () => void;
+    leftClick: () => void;
 }) {
     return (
         <div className="flex flex-col items-center">
             <span className="text-sm text-gray-700 dark:text-gray-400">
-                Showing{" "}
-                <span className="font-semibold">{parseInt(offset) + 1}</span> to{" "}
-                <span className="font-semibold">
-                    {parseInt(offset) + parseInt(limit)}
-                </span>{" "}
-                of <span className="font-semibold">{total}</span> Entries
+                Showing <span className="font-semibold">{offset + 1}</span> to{" "}
+                <span className="font-semibold">{offset + limit}</span> of{" "}
+                <span className="font-semibold">{total}</span> Entries
             </span>
             <div className="xs:mt-0 mt-2 inline-flex">
                 <button
-                    disabled={parseInt(offset) === 0}
-                    className="rounded-l bg-gray-800 py-2 px-4 text-sm font-medium text-white hover:bg-gray-900 disabled:opacity-70 disabled:hover:bg-gray-800"
+                    disabled={offset === 0}
+                    className="pagination-btn rounded-l border-r"
+                    onClick={leftClick}
                 >
-                    {parseInt(offset) === 0 ? "🛇" : "Prev"}
+                    {offset === 0 ? "🛇" : "Prev"}
                 </button>
                 <button
-                    disabled={
-                        parseInt(offset) >= parseInt(total) - parseInt(limit)
-                    }
-                    className="rounded-r border-0 border-l border-gray-700 bg-gray-800 py-2 px-4 text-sm font-medium text-white hover:bg-gray-900 disabled:opacity-50"
+                    disabled={offset >= total - limit}
+                    className="pagination-btn rounded-r border-l"
+                    onClick={rightClick}
                 >
-                    Next
+                    {offset >= total - limit ? "🛇" : "Prev"}
                 </button>
             </div>
         </div>

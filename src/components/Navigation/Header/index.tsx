@@ -11,7 +11,7 @@ export default function Header() {
         <nav className="bg-black px-1 text-white">
             <div className="container mx-auto flex flex-wrap items-center justify-between py-3 md:py-5">
                 <Link href="/">
-                    <a className="cursor-pointer text-3xl">Placeholder</a>
+                    <a className="cursor-pointer text-3xl">Grand Prix Racing</a>
                 </Link>
                 <button onClick={showSidebar} className="md:hidden">
                     <span>{!dropbar ? "Open" : "Close"}</span>
