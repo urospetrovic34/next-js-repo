@@ -1,3 +1,3 @@
-export default function Pagination() {
+export default function Spinner() {
     return <></>;
 }
