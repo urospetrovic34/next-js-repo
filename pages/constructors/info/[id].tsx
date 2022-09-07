@@ -12,15 +12,16 @@ export default function Constructor() {
     );
 
     return (
-        <Image
-            loader={() => loader(data?.imageUrl)}
-            src={data?.imageUrl}
-            alt="Team Logo"
-            width="100%"
-            height="100%"
-            layout="fill"
-            objectFit="contain"
-            className="max-w-[10pxs]"
-        />
+        <div className="h-auto w-full max-w-[80px]">
+            <Image
+                loader={() => loader(data?.imageUrl)}
+                src={data?.imageUrl}
+                alt="Team Logo"
+                width="100%"
+                height="100%"
+                layout="responsive"
+                objectFit="contain"
+            />
+        </div>
     );
 }
