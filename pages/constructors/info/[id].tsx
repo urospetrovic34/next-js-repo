@@ -12,7 +12,7 @@ export default function Constructor() {
     );
 
     return (
-        <div className="h-auto w-full max-w-[80px]">
+        <div className="h-auto w-full max-w-[120px]">
             <Image
                 loader={() => loader(data?.imageUrl)}
                 src={data?.imageUrl}

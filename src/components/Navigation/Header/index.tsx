@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function Header() {
     const [dropbar, setDropbar] = useState(false);
-    const list = ["Seasons", "Drivers", "Constructors", "Circuits"];
+    const list = ["Drivers", "Constructors", "Circuits"];
 
     const showSidebar = () => setDropbar((dropbar) => !dropbar);
 
@@ -11,7 +11,9 @@ export default function Header() {
         <nav className="bg-black px-1 text-white">
             <div className="container mx-auto flex flex-wrap items-center justify-between py-3 md:py-5">
                 <Link href="/">
-                    <a className="cursor-pointer text-3xl">Grand Prix Racing</a>
+                    <a className="cursor-pointer text-3xl">
+                        Grand Prix Racing 2022
+                    </a>
                 </Link>
                 <button onClick={showSidebar} className="md:hidden">
                     <span>{!dropbar ? "Open" : "Close"}</span>

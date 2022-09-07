@@ -20,7 +20,7 @@ export default function Drivers() {
                 {data?.MRData.DriverTable?.Drivers.map(
                     (val: IDrivers, id: number) => (
                         <Link
-                            href={`/drivers/profile/${val.driverId}`}
+                            href={`/drivers/info/${val.driverId}`}
                             key={id}
                             passHref
                         >
@@ -38,13 +38,17 @@ export default function Drivers() {
                 )}
             </div>
             <div className="mt-8">
-                <Pagination
-                    total={Number(data?.MRData.total)}
-                    offset={Number(data?.MRData.offset)}
-                    limit={Number(data?.MRData.limit)}
-                    previousPage={`/drivers/${Number(query.id) - 1}`}
-                    nextPage={`/drivers/${Number(query.id) + 1}`}
-                />
+                {Number(data?.MRData.total) < 36 ? (
+                    <div></div>
+                ) : (
+                    <Pagination
+                        total={Number(data?.MRData.total)}
+                        offset={Number(data?.MRData.offset)}
+                        limit={Number(data?.MRData.limit)}
+                        previousPage={`/drivers/${Number(query.id) - 1}`}
+                        nextPage={`/drivers/${Number(query.id) + 1}`}
+                    />
+                )}
             </div>
         </>
     );
