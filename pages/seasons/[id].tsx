@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import SeasonsAPI from "src/services/seasons";
+import getPaths from "src/util/ssg/getPaths";
 
 export default function Seasons() {
     const { query } = useRouter();
@@ -27,21 +28,12 @@ export default function Seasons() {
 
 export async function getStaticPaths() {
     return {
-        paths: [
-            { params: { id: "1" } },
-            { params: { id: "2" } },
-            { params: { id: "3" } },
-            { params: { id: "4" } },
-            { params: { id: "5" } },
-            { params: { id: "6" } },
-            { params: { id: "7" } },
-            { params: { id: "8" } },
-        ],
+        paths: getPaths(9),
         fallback: false,
     };
 }
 
-export async function getStaticProps(ctx: { params: { id: "string" } }) {
+export async function getStaticProps(ctx: { params: { id: string } }) {
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery(["seasons", ctx.params.id], () =>

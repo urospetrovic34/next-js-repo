@@ -30,7 +30,7 @@ export default function Driver() {
     );
 }
 
-export async function getServerSideProps(ctx: { query: { id: "string" } }) {
+export async function getServerSideProps(ctx: { query: { id: string } }) {
     const queryClient = new QueryClient();
 
     await queryClient.prefetchQuery<IData>(["driver", ctx.query.id], () =>

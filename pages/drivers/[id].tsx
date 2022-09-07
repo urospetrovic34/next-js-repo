@@ -7,13 +7,13 @@ import { IDrivers } from "src/types/API/driverInterface";
 import { IData } from "src/types/API/mrDataInterface";
 import DriverCard from "src/components/Card/DriverCard";
 import Pagination from "src/components/Pagination";
+import getPaths from "src/util/ssg/getPaths";
 
 export default function Drivers() {
     const { query } = useRouter();
     const { data } = useQuery<IData>(["drivers", query.id], () =>
         DriversAPI.getDrivers({ offset: query.id })
     );
-
     return (
         <>
             <div className="grid grid-rows-6 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -52,43 +52,16 @@ export default function Drivers() {
 
 export async function getStaticPaths() {
     return {
-        paths: [
-            { params: { id: "1" } },
-            { params: { id: "2" } },
-            { params: { id: "3" } },
-            { params: { id: "4" } },
-            { params: { id: "5" } },
-            { params: { id: "6" } },
-            { params: { id: "7" } },
-            { params: { id: "8" } },
-            { params: { id: "9" } },
-            { params: { id: "10" } },
-            { params: { id: "11" } },
-            { params: { id: "12" } },
-            { params: { id: "13" } },
-            { params: { id: "14" } },
-            { params: { id: "15" } },
-            { params: { id: "16" } },
-            { params: { id: "17" } },
-            { params: { id: "18" } },
-            { params: { id: "19" } },
-            { params: { id: "20" } },
-            { params: { id: "21" } },
-            { params: { id: "22" } },
-            { params: { id: "23" } },
-            { params: { id: "24" } },
-        ],
+        paths: getPaths(25),
         fallback: false,
     };
 }
 
-export async function getStaticProps(ctx: { params: { id: "string" } }) {
+export async function getStaticProps(ctx: { params: { id: string } }) {
     const queryClient = new QueryClient();
-
     await queryClient.prefetchQuery<IData>(["drivers", ctx.params.id], () =>
         DriversAPI.getDrivers({ offset: ctx.params.id })
     );
-
     return {
         props: {
             dehydratedState: dehydrate(queryClient),
