@@ -33,6 +33,7 @@ export default function Pagination({
                         </button>
                     </a>
                 </Link>
+
                 <Link href={nextPage} passHref>
                     <a>
                         <button
