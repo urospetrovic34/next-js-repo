@@ -18,9 +18,7 @@ export default function Pagination({
             <span className="text-sm text-gray-700 dark:text-gray-400">
                 Showing <span className="font-semibold">{offset + 1}</span> to{" "}
                 <span className="font-semibold">
-                    {offset + limit > total
-                        ? `${total - offset}`
-                        : `${offset + limit}`}
+                    {offset + limit > total ? `${total}` : `${offset + limit}`}
                 </span>{" "}
                 of <span className="font-semibold">{total}</span> Entries
             </span>
