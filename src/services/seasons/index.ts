@@ -6,8 +6,19 @@ async function getSeasonsByDecade({ offset }: { offset?: string | string[] }) {
     return data;
 }
 
+async function getSeasonsByTitlesOfTeam({
+    constructorId,
+}: {
+    constructorId?: string | string[];
+}) {
+    const url = `/constructorStandings/1/constructors/${constructorId}/seasons.json`;
+    const { data } = await axios.get(url);
+    return data;
+}
+
 const seasons = {
     getSeasonsByDecade,
+    getSeasonsByTitlesOfTeam,
 };
 
 export default seasons;

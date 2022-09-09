@@ -1,5 +1,15 @@
 import axios from "src/config/axios";
 
+async function getSingleConstructor({
+    constructorId,
+}: {
+    constructorId?: string | string[];
+}) {
+    const url = `/constructors/${constructorId}.json`;
+    const { data } = await axios.get(url);
+    return data;
+}
+
 async function getConstructorsByDriver({
     driverId,
 }: {
@@ -11,6 +21,7 @@ async function getConstructorsByDriver({
 }
 
 const constructors = {
+    getSingleConstructor,
     getConstructorsByDriver,
 };
 
