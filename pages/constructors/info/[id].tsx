@@ -8,6 +8,7 @@ import ConstructorsLocalAPI from "src/services/local/constructors";
 
 export default function Constructor() {
     const { query } = useRouter();
+
     const { data: part1 } = useQuery(["constructor-part-1", query.id], () =>
         ConstructorsAPI.getSingleConstructor({ constructorId: query.id })
     );
