@@ -55,7 +55,7 @@ export default function Constructor() {
                 <div>
                     Titles:{" "}
                     {part2?.MRData.SeasonTable.Seasons.map(
-                        (season) => season?.season + " "
+                        (season: any) => season?.season + " "
                     )}
                 </div>
             </div>
