@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function Header() {
     const [dropbar, setDropbar] = useState(false);
-    const list = ["Drivers", "Constructors", "Circuits"];
+    const list = ["Seasons", "Drivers", "Constructors", "Circuits"];
 
     const showSidebar = () => setDropbar((dropbar) => !dropbar);
 
@@ -27,7 +27,7 @@ export default function Header() {
                         {list.map((val, id) => (
                             <Link
                                 href={
-                                    val === "Seasons" || val === "Drivers"
+                                    val === "Drivers"
                                         ? `/${val.toLowerCase()}/1`
                                         : `/${val.toLowerCase()}`
                                 }

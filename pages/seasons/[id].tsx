@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 import SeasonsAPI from "src/services/seasons";
+import getDecadePaths from "src/util/ssg/getDecadePaths";
 import getPaths from "src/util/ssg/getPaths";
 
 export default function Seasons() {
@@ -27,6 +28,7 @@ export default function Seasons() {
 }
 
 export async function getStaticPaths() {
+    console.log(getDecadePaths());
     return {
         paths: getPaths(9),
         fallback: false,
