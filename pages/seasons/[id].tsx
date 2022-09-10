@@ -8,7 +8,7 @@ import DecadeCard from "src/components/Card/DecadeCard";
 
 export default function Seasons() {
     const { query } = useRouter();
-    const { data } = useQuery([["decade"], query.id], () =>
+    const { data } = useQuery([["decade", query.id], query.id], () =>
         SeasonsLocalAPI.getSeasonByDecade({ decadeId: query.id })
     );
     return (
@@ -33,8 +33,9 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx: { params: { id: string } }) {
     const queryClient = new QueryClient();
-    await queryClient.prefetchQuery([["decade"], ctx.params.id], () =>
-        SeasonsLocalAPI.getSeasonByDecade({ decadeId: ctx.params.id })
+    await queryClient.prefetchQuery(
+        [["decade", ctx.params.id], ctx.params.id],
+        () => SeasonsLocalAPI.getSeasonByDecade({ decadeId: ctx.params.id })
     );
 
     return {
