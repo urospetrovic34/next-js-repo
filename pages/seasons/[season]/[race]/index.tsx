@@ -56,13 +56,27 @@ export default function Home() {
             <table className="w-full text-center text-xl text-white">
                 <thead className="bg-[#b62021] text-sm uppercase text-white">
                     <tr>
-                        <th scope="col">Position</th>
-                        <th scope="col">Grid</th>
-                        <th scope="col">Driver</th>
-                        <th scope="col">Constructor</th>
-                        <th scope="col">Laps</th>
-                        <th scope="col">Time</th>
-                        <th scope="col">Points</th>
+                        <th scope="col" className="py-3">
+                            Position
+                        </th>
+                        <th scope="col" className="py-3">
+                            Grid
+                        </th>
+                        <th scope="col" className="py-3">
+                            Driver
+                        </th>
+                        <th scope="col" className="py-3">
+                            Constructor
+                        </th>
+                        <th scope="col" className="py-3">
+                            Laps
+                        </th>
+                        <th scope="col" className="py-3">
+                            Time
+                        </th>
+                        <th scope="col" className="py-3">
+                            Points
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -75,8 +89,12 @@ export default function Home() {
                                 {val.positionText === "F" ? "-" : val.position}
                             </td>
                             <td>
-                                {val.positionText === "F" || val.grid === "0"
+                                {val.positionText === "F" ||
+                                (val.grid === "0" && val.positionText === "W")
                                     ? "-"
+                                    : val.grid === "0" &&
+                                      val.positionText !== "W"
+                                    ? "Pitlane"
                                     : val.grid}
                             </td>
                             <td>
