@@ -3,7 +3,7 @@ import map from "lodash/map";
 import decades from "src/json/decades";
 
 function getDecadePathObject(decade: any) {
-    return { params: { decade: decade.decadeId } };
+    return { params: { id: decade.decadeId } };
 }
 
 export default function getDecadePaths() {

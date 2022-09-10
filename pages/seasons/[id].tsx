@@ -2,44 +2,39 @@ import { dehydrate, QueryClient, useQuery } from "react-query";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-import SeasonsAPI from "src/services/seasons";
+import SeasonsLocalAPI from "src/services/local/seasons";
 import getDecadePaths from "src/util/ssg/getDecadePaths";
-import getPaths from "src/util/ssg/getPaths";
+import DecadeCard from "src/components/Card/DecadeCard";
 
 export default function Seasons() {
     const { query } = useRouter();
-    const { data } = useQuery(["seasons", query.id], () =>
-        SeasonsAPI.getSeasonsByDecade({ offset: query.id })
+    const { data } = useQuery([["decade"], query.id], () =>
+        SeasonsLocalAPI.getSeasonByDecade({ decadeId: query.id })
     );
     return (
-        <div className="flex flex-col items-center">
-            <div className="text-4xl font-bold italic">
-                {data.MRData.SeasonTable.Seasons[0].season + "s"}
-            </div>
-            <div>
-                <Link href={`/seasons/${Number(query.id) + 1}`}>
+        <div className="grid gap-2 bg-contain bg-center md:grid-cols-2 lg:grid-cols-5">
+            {data?.seasons.map((val: any, id: number) => (
+                <Link href={`/seasons/${val}`} key={id} passHref>
                     <a>
-                        <button>NEXT</button>
+                        <DecadeCard name={val} background={""} />
                     </a>
                 </Link>
-            </div>
+            ))}
         </div>
     );
 }
 
 export async function getStaticPaths() {
-    console.log(getDecadePaths());
     return {
-        paths: getPaths(9),
+        paths: getDecadePaths(),
         fallback: false,
     };
 }
 
 export async function getStaticProps(ctx: { params: { id: string } }) {
     const queryClient = new QueryClient();
-
-    await queryClient.prefetchQuery(["seasons", ctx.params.id], () =>
-        SeasonsAPI.getSeasonsByDecade({ offset: ctx.params.id })
+    await queryClient.prefetchQuery([["decade"], ctx.params.id], () =>
+        SeasonsLocalAPI.getSeasonByDecade({ decadeId: ctx.params.id })
     );
 
     return {

@@ -7,7 +7,8 @@ export default function DriverCard({
 }) {
     return (
         <div
-            className="flex min-h-[170px] min-w-max cursor-pointer flex-col items-center justify-center gap-1 rounded bg-120% bg-center bg-no-repeat shadow-md transition-all hover:bg-150% hover:brightness-[0.65]"
+            className="flex min-h-[170px] min-w-max cursor-pointer flex-col items-center justify-center gap-1 rounded bg-120% bg-center bg-no-repeat shadow-md brightness-[0.9]
+            transition-all hover:bg-150%"
             style={{
                 backgroundImage: `url(${background})`,
             }}
