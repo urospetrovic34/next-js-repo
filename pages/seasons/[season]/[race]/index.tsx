@@ -40,23 +40,26 @@ export default function Home() {
                 {", "}
                 {raceInfo.Circuit.Location.locality}
                 {", "}
-                {raceInfo.Circuit.Location.country}
+                {raceInfo.Circuit.Location.country}{" "}
+                {raceInfo.Circuit.Location.country === "Italy" && "🇮🇹"}
             </div>
             <div>
                 {fastestLap.length !== 0 &&
                     `Fastest Lap: ${fastestLap[0].Driver.givenName.split(
                         "",
                         1
-                    )}. ${fastestLap[0].Driver.familyName}`}
+                    )}. ${fastestLap[0].Driver.familyName} - ${
+                        fastestLap[0].FastestLap.Time.time
+                    }`}
             </div>
             <div>
                 Pole Position: {polePosition[0].Driver.givenName.split("", 1)}.{" "}
                 {polePosition[0].Driver.familyName}
             </div>
-            <table className="w-full text-center text-xl text-white">
+            <table className="w-full text-center text-xl">
                 <thead className="bg-[#b62021] text-sm uppercase text-white">
                     <tr>
-                        <th scope="col" className="py-3">
+                        <th scope="col" className="py-5">
                             Position
                         </th>
                         <th scope="col" className="py-3">
@@ -81,11 +84,8 @@ export default function Home() {
                 </thead>
                 <tbody>
                     {raceInfo.Results.map((val: any, id: number) => (
-                        <tr
-                            className="border-b border-gray-700 bg-[#131313]"
-                            key={id}
-                        >
-                            <td>
+                        <tr className="border-b" key={id}>
+                            <td className="py-2">
                                 {val.positionText === "F" ? "-" : val.position}
                             </td>
                             <td>
