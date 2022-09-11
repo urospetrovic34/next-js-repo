@@ -24,9 +24,22 @@ async function getSingleRace({
     return data;
 }
 
+async function getSingleRaceQualification({
+    season,
+    race,
+}: {
+    season?: string | string[];
+    race?: string | string[];
+}) {
+    const url = `/${season}/${race}/qualifying.json`;
+    const { data } = await axios.get(url);
+    return data;
+}
+
 const races = {
     getSingleDriverResults,
     getSingleRace,
+    getSingleRaceQualification,
 };
 
 export default races;
